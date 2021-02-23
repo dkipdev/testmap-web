@@ -1,5 +1,5 @@
 @extends('layout.admin.template')
-@section('title', 'Tambah Kategori Marker')
+@section('title', 'Edit Kategori Marker')
 @section('body')
 <div class="container-fluid">
     <div class="row">
@@ -7,12 +7,13 @@
             <div class="card">
                 <div class="card-body">
                     <!-- form start -->
-                    <form method="POST" action="{{ url('kategori') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('updatekategori') }}" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{ $category->id }}">
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Nama Kategori</label>
-                                <input type="text" class="form-control" name="nama" id="inputKategori"
+                                <input type="text" class="form-control" name="nama" value="{{ $category->kategori }}" id="inputKategori"
                                     placeholder="Masukkan Nama Kategori">
                                 @error('nama')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -24,21 +25,20 @@
                                     <div class="custom-file">
                                         <input type="file" name="file" class="custom-file-input"
                                             onchange="previewFile(this)">
-                                        <label class="custom-file-label">Choose file</label>
+                                        <label class="custom-file-label">{{ $category->icon }}</label>
                                     </div>
                                     
                                 </div>
                                 @error('file')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
-                                <img id="previewIcon" style="max-width:130px;margin-top:20px;">
+                                <img id="previewIcon" src="{{ asset('images/'.$category->icon) }}" style="max-width:130px;margin-top:20px;">
                             </div>
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="{{ url('/kategori') }}" class="btn btn-secondary">Batal</a>
                         </div>
                     </form>
                 </div>

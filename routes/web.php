@@ -18,9 +18,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.dashboard');
 });
+
+// ROUTE MARKERS
 Route::get('/markers', [MarkersController::class, 'index']);
+Route::get('/markers/create', [MarkersController::class, 'create']);
+
+// ROUTE KATEGORI MARKER
 Route::get('/kategori', [MarkerCategoriesController::class, 'index']);
 Route::get('/kategori/create', [MarkerCategoriesController::class, 'create']);
-Route::get('/kategori/{id}', [MarkerCategoriesController::class, 'show']);
-Route::delete('/kategori/{id}', [MarkerCategoriesController::class, 'destroy']);
+Route::get('/kategori/{id}/edit', [MarkerCategoriesController::class, 'edit']);
+Route::delete('/kategori/{id}', [MarkerCategoriesController::class, 'destroy'])->name('deletekategori');
 Route::post('/kategori', [MarkerCategoriesController::class, 'store']);
+Route::post('/kategori-update', [MarkerCategoriesController::class, 'update'])->name('updatekategori');

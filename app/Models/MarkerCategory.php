@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MarkerCategory extends Model
 {
     use HasFactory;
-    // protected $table ='marker_categories';
     public $timestamps = false;
+
+    public function markers() {
+        return $this->hasMany(Marker::class);
+    }
 }

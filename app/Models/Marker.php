@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Marker extends Model
 {
     use HasFactory;
+    
+    public function kategori() {
+        return $this->belongsTo(MarkerCategory::class, 'id_kategori');
+    }
 }

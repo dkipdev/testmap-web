@@ -6,8 +6,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <button type="button" class="btn btn-outline-primary"><i class="nav-icon fas fa-plus"></i> Tambah
-                        Marker</button>
+                    <a href="{{ url('markers/create') }}" class="btn btn-outline-primary"><i class="nav-icon fas fa-plus"></i> Tambah
+                        Marker</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -36,9 +36,9 @@
                                 <td>{{ $marker->updated_at->isoFormat('dddd, D MMMM Y') }}</td>
                                 <td align="center">
                                     <div class="btn-group" role="group" aria-label="aksi">
-                                        <a type="button" class="btn btn-warning"><i class="fas fa-eye"></i> Lihat</a>
-                                        <a type="button" class="btn btn-info"><i class="fas fa-edit"></i> Ubah</a>
-                                        <a type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i>
+                                        <a type="button" class="btn btn-sm btn-warning text-white"><i class="fas fa-eye"></i> Lihat</a>
+                                        <a type="button" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Ubah</a>
+                                        <a type="button" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>
                                             Delete</a>
                                     </div>
                                 </td>

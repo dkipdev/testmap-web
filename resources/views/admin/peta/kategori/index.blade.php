@@ -2,28 +2,32 @@
 @section('title', 'Marker Categories')
 @section('body')
 
-<!-- Modal -->
-<div class="modal fade" id="deletemodalpop" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Hapus Data</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="delete_modal" method="POST">
-                @method('delete')
-                @csrf
+<!-- Delete Model -->
+<form action="" method="POST" class="remove-record-model">
+    @method('delete')
+    @csrf
+    <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" style="width:55%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title-hapus">Hapus Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
                 <div class="modal-body">
-                    <input type="text" name="" id="delete_id">
+                    <p>Apakah anda yakin ingin menghapus data ini?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-danger">Hapus</button>
+                    <button type="button" class="btn btn-default waves-effect remove-data-from-delete-form"
+                        data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-danger waves-effect waves-light">Hapus</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 <div class="container-fluid">
     <div class="row">
@@ -48,17 +52,17 @@
                         <tbody>
                             @foreach ($categories as $category)
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td scope="row">{{ $loop->iteration }}</td>
                                 <td>{{ $category->kategori }}</td>
                                 <td align="center"><img src="{{ url('images/'.$category->icon) }}" alt=""
                                         style="max-width: 32px"></td>
                                 <td align="center">
                                     <div class="btn-group" role="group" aria-label="aksi">
-                                        <a href="{{ url('kategori/'.$category->id) }}"
-                                            class="btn btn-warning text-white"><i class="fas fa-eye"></i> Lihat</a>
-                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#hapusModal"><i class="fas fa-edit"></i> Ubah</button>
-                                        <a href="javascript:void(0)" class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#deletemodalpop"><i class="fas fa-trash-alt"></i> Hapus</a>
+                                        <a href="{{ url('/kategori/'.$category->id.'/edit') }}" class="btn btn-sm btn-warning text-white"><i class="fas fa-edit"></i> Ubah</a>
+                                        <a class="btn btn-danger btn-sm waves-effect waves-light remove-record"
+                                            data-toggle="modal"
+                                            data-url="{!! URL::route('deletekategori', $category->id) !!}"
+                                            data-id="{{$category->id}}" data-target="#custom-width-modal">Delete</a>
                                     </div>
                                 </td>
                             </tr>
@@ -122,6 +126,40 @@
         "responsive": true,
       });
     });
+</script>
+<script>
+    // $(document).ready(function () {
+    //     $('#example1').on('click', '.deletebtn ', function () {
+    //         $tr = $(this).closest('tr');
+
+    //         var data = $tr.children("td").map(function () {
+    //             return $(this).text();
+    //         }).get();
+
+    //         console.log(data);
+
+    //         $('#delete_id').val(data[0]);
+    //         $('#delete_modal').attr('action', '/kategori/'+data[0]);
+    //         $('#modal-default').modal('show');
+    //     });
+    // });
+
+$(document).ready(function(){
+	// For A Delete Record Popup
+	$('.remove-record').click(function() {
+		var id = $(this).attr('data-id');
+		var url = $(this).attr('data-url');
+		$(".remove-record-model").attr("action",url);
+		$('body').find('.remove-record-model').append('<input name="id" type="hidden" value="'+ id +'">');
+	});
+
+	$('.remove-data-from-delete-form').click(function() {
+		$('body').find('.remove-record-model').find( "input" ).remove();
+	});
+	$('.modal').click(function() {
+		// $('body').find('.remove-record-model').find( "input" ).remove();
+	});
+});
 </script>
 <!-- Toastr -->
 @if (Session::has('success'))

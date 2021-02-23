@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\MarkerCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class MarkerCategoriesController extends Controller
 {
+    public $prefix = 'admin.peta.kategori.';
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,7 @@ class MarkerCategoriesController extends Controller
     {
         confLocale();
         $categories = MarkerCategory::all();
-        return view('admin.peta.kategori.index', compact('categories'));
+        return view($this->prefix . 'index', compact('categories'));
     }
 
     /**
@@ -26,7 +28,7 @@ class MarkerCategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.peta.kategori.create');
+        return view($this->prefix . 'create');
     }
 
     /**
@@ -45,19 +47,18 @@ class MarkerCategoriesController extends Controller
         );
         $kategori = $request->nama;
         $image = $request->file('file');
-        $imageName = time() . '.' . $image->extension();
+        $imageName = 'marker-' . time() . '.' . $image->extension();
         $image->move(public_path('images'), $imageName);
         $markerCategory = new MarkerCategory();
         $markerCategory->kategori = $kategori;
         $markerCategory->icon = $imageName;
         $status = $markerCategory->save();
-        
-        if($status) {
+
+        if ($status) {
             return redirect('/kategori')->with('success', 'Berhasil menambahkan data');
         } else {
             return redirect('/kategori')->with('failed', 'Gagal menambahkan data');
         }
-        
     }
 
     /**
@@ -69,7 +70,6 @@ class MarkerCategoriesController extends Controller
     public function show($id)
     {
         //
-        return view('admin.peta');
     }
 
     /**
@@ -80,7 +80,8 @@ class MarkerCategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = MarkerCategory::findOrFail($id);
+        return view($this->prefix . 'edit', compact('category'));
     }
 
     /**
@@ -90,9 +91,39 @@ class MarkerCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'nama' => 'required',
+                'file' => 'image|mimes:jpeg,jpg,png,webp|max:2048'
+            ]
+        );
+        $kategori = $request->nama;
+
+        $markerCategory = MarkerCategory::findOrFail($request->id);
+
+        $image = $request->file('file');
+
+        //hapus gambar sebelumnya
+        if (!is_null($image)) {
+            $imageName = 'marker-' . time() . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+            $image_path = public_path("/images/" . $markerCategory->icon); // Value is not URL but directory file path
+            if (File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            $markerCategory->icon = $imageName;
+        }
+
+        $markerCategory->kategori = $kategori;
+        $status = $markerCategory->save();
+
+        if ($status) {
+            return redirect('/kategori')->with('success', 'Berhasil mengupdate data');
+        } else {
+            return redirect('/kategori')->with('failed', 'Gagal mengupdate data');
+        }
     }
 
     /**
@@ -105,6 +136,10 @@ class MarkerCategoriesController extends Controller
     {
         //
         $kategori = MarkerCategory::findOrFail($id);
+        $image_path = public_path("/images/" . $kategori->icon);  // Value is not URL but directory file path
+        if (File::exists($image_path)) {
+            File::delete($image_path);
+        }
         $kategori->delete();
         return redirect('kategori')->with('success', 'Data Berhasil Dihapus!');
     }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marker;
+use App\Models\MarkerCategory;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class MarkersController extends Controller
 {
+    protected $prefix = 'admin.peta.markers.';
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +22,7 @@ class MarkersController extends Controller
         ->select('markers.*', 'marker_categories.kategori')
         ->get();
 
-        return view('admin.peta.markers.index', compact('markers'));
+        return view($this->prefix.'index', compact('markers'));
     }
 
     /**
@@ -30,7 +32,8 @@ class MarkersController extends Controller
      */
     public function create()
     {
-        //
+        $categories = MarkerCategory::all();
+        return view($this->prefix.'create', compact('categories'));
     }
 
     /**
@@ -41,7 +44,9 @@ class MarkersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+        ]);
     }
 
     /**
