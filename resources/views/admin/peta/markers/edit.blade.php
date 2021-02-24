@@ -1,5 +1,5 @@
 @extends('layout.admin.template')
-@section('title', 'Tambah Marker')
+@section('title', 'Edit Marker')
 @section('body')
 <div class="container-fluid">
     <div class="row">
@@ -15,7 +15,7 @@
                                     <div class="form-group">
                                         <label>Nama Marker</label>
                                         <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                            name="nama" id="marker" placeholder="Masukkan Nama Marker">
+                                            name="nama" id="marker" value="{{ $marker->nama }}"  placeholder="Masukkan Nama Marker">
                                         @error('nama')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -27,7 +27,7 @@
                                         <select class="form-control @error('id_kategori') is-invalid @enderror"
                                             name="id_kategori">
                                             @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->kategori }}</option>
+                                            <option @if ($marker->id_kategori == $category->id) {{ 'selected' }} @endif value="{{ $category->id }}">{{ $category->kategori }}</option>
                                             @endforeach
                                         </select>
                                         @error('id_kategori')
@@ -38,7 +38,9 @@
                             </div>
                             <div class="form-group">
                                 <label>Deskripsi</label>
-                                <textarea id="deskripsi" name="deskripsi"></textarea>
+                                <textarea id="deskripsi" name="deskripsi">
+                                    {{ $marker->deskripsi }}
+                                </textarea>
                                 @error('deskripsi')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -53,17 +55,8 @@
                                     <div class="form-group">
                                         <label>Alamat</label>
                                         <input type="text" class="form-control @error('alamat') is-invalid @enderror"
-                                            name="alamat" id="alamat" placeholder="Masukkan Alamat">
+                                            name="alamat" value="{{ $marker->alamat }}" id="alamat" placeholder="Masukkan Alamat">
                                         @error('alamat')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Latitude</label>
-                                        <input type="text"
-                                            class="form-control @error('latitude') is-invalid @enderror" name="latitude"
-                                            id="ilat" placeholder="Masukkan Latitude">
-                                        @error('latitude')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -71,8 +64,17 @@
                                         <label>Longitude</label>
                                         <input type="text"
                                             class="form-control @error('longitude') is-invalid @enderror"
-                                            name="longitude" id="ilon" placeholder="Masukkan Longitude">
+                                            name="longitude" value="{{ $marker->longitude }}" id="ilon" placeholder="Masukkan Longitude">
                                         @error('longitude')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Latitude</label>
+                                        <input type="text"
+                                            class="form-control @error('latitude') is-invalid @enderror" name="latitude"
+                                            id="ilat" value="{{ $marker->latitude }}" placeholder="Masukkan Latitude">
+                                        @error('latitude')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -110,8 +112,8 @@
 <script>
     $('#somecomponent').locationpicker({
         location: {
-            latitude: {{ (!empty($data->lat))? $data->lat : -0.019572 }},
-            longitude: {{ (!empty($data->lon))? $data->lon : 109.339459 }}       
+            latitude: {{ (!empty($marker->latitude))? $marker->latitude : -0.019572 }},
+            longitude: {{ (!empty($marker->longitude))? $marker->longitude : 109.339459 }}       
         },
         radius: 100,
         inputBinding: {

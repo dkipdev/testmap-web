@@ -66,7 +66,7 @@
                                 <td align="center">
                                     <div class="btn-group" role="group" aria-label="aksi">
                                         <a type="button" class="btn btn-sm btn-warning text-white"><i class="fas fa-eye"></i> Lihat</a>
-                                        <a type="button" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Ubah</a>
+                                        <a href="{{ url('markers/'.$marker->id.'/edit') }}" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Ubah</a>
                                         <a class="btn btn-danger btn-sm waves-effect waves-light remove-record"
                                             data-toggle="modal"
                                             data-url="{!! URL::route('markers.delete', $marker->id) !!}"

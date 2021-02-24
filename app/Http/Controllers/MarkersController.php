@@ -69,7 +69,8 @@ class MarkersController extends Controller
      */
     public function show($id)
     {
-        //
+        $marker = Marker::findOrFail($id);
+
     }
 
     /**
@@ -80,7 +81,9 @@ class MarkersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $marker = Marker::findOrFail($id);
+        $categories = MarkerCategory::all();
+        return view($this->prefix.'edit', compact('marker', 'categories'));
     }
 
     /**

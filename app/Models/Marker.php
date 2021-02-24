@@ -11,7 +11,7 @@ class Marker extends Model
     
     protected $guarded =[];
 
-    public function kategori() {
+    public function details() {
         return $this->belongsTo(MarkerCategory::class, 'id_kategori');
     }
 }

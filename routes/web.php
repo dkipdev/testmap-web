@@ -25,6 +25,7 @@ Route::get('/markers/create', [MarkersController::class, 'create']);
 Route::post('/markers', [MarkersController::class, 'store'])->name('markers.store');
 Route::delete('/markers/{id}', [MarkersController::class, 'destroy'])->name('markers.delete');
 Route::delete('/markers', [MarkersController::class, 'update'])->name('markers.update');
+Route::get('/markers/{id}/edit', [MarkersController::class, 'edit']);
 
 // ROUTE KATEGORI MARKER
 Route::get('/kategori', [MarkerCategoriesController::class, 'index']);
