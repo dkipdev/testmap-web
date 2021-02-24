@@ -46,7 +46,19 @@ class MarkersController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'id_kategori' => 'required',
+            'deskripsi' => 'nullable',
+            'alamat' => 'nullable',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ]);
+
+        $marker = Marker::create($request->all());
+        if ($marker) {
+            return redirect('/markers')->with('success', 'Berhasil menambahkan data marker!');
+        } else {
+            return redirect('/markers')->with('failed', 'Gagal menambahkan data marker');
+        }
     }
 
     /**
@@ -80,7 +92,22 @@ class MarkersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'id_kategori' => 'required',
+            'deskripsi' => 'nullable',
+            'alamat' => 'nullable',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ]);
+
+        $marker = Marker::findOrfail($id);
+        $marker->save($request->all());
+        if ($marker) {
+            return redirect('/markers')->with('success', 'Berhasil menambahkan data marker!');
+        } else {
+            return redirect('/markers')->with('failed', 'Gagal menambahkan data marker');
+        }
     }
 
     /**
@@ -91,6 +118,8 @@ class MarkersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $marker = Marker::findOrFail($id);
+        $marker->delete();
+        return redirect('markers')->with('success', 'Marker Berhasil Dihapus!');
     }
 }

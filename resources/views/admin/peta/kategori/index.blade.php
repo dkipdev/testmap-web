@@ -28,6 +28,7 @@
         </div>
     </div>
 </form>
+<!-- End Delete Model -->
 
 <div class="container-fluid">
     <div class="row">
@@ -128,38 +129,22 @@
     });
 </script>
 <script>
-    // $(document).ready(function () {
-    //     $('#example1').on('click', '.deletebtn ', function () {
-    //         $tr = $(this).closest('tr');
+    $(document).ready(function(){
+        // For A Delete Record Popup
+        $('.remove-record').click(function() {
+            var id = $(this).attr('data-id');
+            var url = $(this).attr('data-url');
+            $(".remove-record-model").attr("action",url);
+            $('body').find('.remove-record-model').append('<input name="id" type="hidden" value="'+ id +'">');
+        });
 
-    //         var data = $tr.children("td").map(function () {
-    //             return $(this).text();
-    //         }).get();
-
-    //         console.log(data);
-
-    //         $('#delete_id').val(data[0]);
-    //         $('#delete_modal').attr('action', '/kategori/'+data[0]);
-    //         $('#modal-default').modal('show');
-    //     });
-    // });
-
-$(document).ready(function(){
-	// For A Delete Record Popup
-	$('.remove-record').click(function() {
-		var id = $(this).attr('data-id');
-		var url = $(this).attr('data-url');
-		$(".remove-record-model").attr("action",url);
-		$('body').find('.remove-record-model').append('<input name="id" type="hidden" value="'+ id +'">');
-	});
-
-	$('.remove-data-from-delete-form').click(function() {
-		$('body').find('.remove-record-model').find( "input" ).remove();
-	});
-	$('.modal').click(function() {
-		// $('body').find('.remove-record-model').find( "input" ).remove();
-	});
-});
+        $('.remove-data-from-delete-form').click(function() {
+            $('body').find('.remove-record-model').find( "input" ).remove();
+        });
+        $('.modal').click(function() {
+            // $('body').find('.remove-record-model').find( "input" ).remove();
+        });
+    });
 </script>
 <!-- Toastr -->
 @if (Session::has('success'))

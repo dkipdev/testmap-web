@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('template/') }}/plugins/summernote/summernote-bs4.min.css">
+  @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -231,6 +232,7 @@
 <script src="{{ asset('template/') }}/dist/js/demo.js"></script>
 <!-- Toastr -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+@stack('scripts')
 
 @yield('script')
 </body>
