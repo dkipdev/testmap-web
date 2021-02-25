@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('admin.dashboard');
+    return view('peta');
 });
 
 // ROUTE MARKERS
@@ -34,3 +34,8 @@ Route::get('/kategori/{id}/edit', [MarkerCategoriesController::class, 'edit']);
 Route::delete('/kategori/{id}', [MarkerCategoriesController::class, 'destroy'])->name('deletekategori');
 Route::post('/kategori', [MarkerCategoriesController::class, 'store']);
 Route::post('/kategori-update', [MarkerCategoriesController::class, 'update'])->name('updatekategori');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('admin.dashboard');
+})->name('dashboard');
+
+//Route FrontEnd

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\MarkerController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('user', [UserController::class, 'fetch']);
+    Route::post('logout', [UserController::class, 'logout']);
 });
+
+Route::post('login', [UserController::class, 'login']);
+Route::get('marker', [MarkerController::class, 'all']);
