@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\MarkerCategoryController;
 use App\Http\Controllers\API\MarkerController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -23,3 +24,4 @@ Route::middleware('auth:sanctum')->group(function() {
 
 Route::post('login', [UserController::class, 'login']);
 Route::get('marker', [MarkerController::class, 'all']);
+Route::get('marker/kategori', [MarkerCategoryController::class, 'all']);

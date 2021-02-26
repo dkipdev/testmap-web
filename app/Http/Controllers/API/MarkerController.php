@@ -43,7 +43,7 @@ class MarkerController extends Controller
                 'Beberapa list marker berhasil diambil'
             );
         } else {
-            $marker = Marker::all();
+            $marker = Marker::with('details')->get();
             return ResponseFormatter::success(
                 $marker,
                 'Data list marker berhasil diambil'

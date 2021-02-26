@@ -7,11 +7,12 @@
             <div class="card">
                 <div class="card-body">
                     <!-- form start -->
-                    <form method="POST" action="{{ route('markers.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('markers.update') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
+                                    <input type="hidden" class="form-control" name="id" value="{{ $marker->id }}" >
                                     <div class="form-group">
                                         <label>Nama Marker</label>
                                         <input type="text" class="form-control @error('nama') is-invalid @enderror"

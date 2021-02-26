@@ -93,7 +93,7 @@ class MarkersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
             'nama' => 'required',
@@ -104,12 +104,18 @@ class MarkersController extends Controller
             'longitude' => 'required'
         ]);
 
-        $marker = Marker::findOrfail($id);
-        $marker->save($request->all());
+        $marker = Marker::findOrfail($request->id);
+        $marker->nama = $request->nama;
+        $marker->id_kategori = $request->id_kategori;
+        $marker->deskripsi = $request->deskripsi;
+        $marker->alamat = $request->alamat;
+        $marker->latitude = $request->latitude;
+        $marker->longitude = $request->longitude;
+        $marker->save();
         if ($marker) {
-            return redirect('/markers')->with('success', 'Berhasil menambahkan data marker!');
+            return redirect('/markers')->with('success', 'Berhasil mengupdate data marker!');
         } else {
-            return redirect('/markers')->with('failed', 'Gagal menambahkan data marker');
+            return redirect('/markers')->with('failed', 'Gagal mengupdate data marker');
         }
     }
 
